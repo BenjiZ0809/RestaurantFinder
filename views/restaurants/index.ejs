@@ -1,0 +1,41 @@
+<% layout("/layouts/boilerplate") %>
+
+<div id="cluster-map"></div>
+<h1>All Restaurs</h1>
+<div>
+    <a href="/restaurants/new">Add new restaurant</a>
+</div>
+<% for(let restaurant of restaurants) { %>
+<div class="card mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <% if(restaurant.images.length) { %>
+            <img class="img-fluid" src="<%= restaurant.images[0].url %> " alt="">
+            <% } else { %>
+            <img class="img-fluid"
+                src="https://res.cloudinary.com/dukcbnlrq/image/upload/v1667956655/RestaurantFinder/y60mhnb0guyzlwinmuvk.webp"
+                alt="">
+            <% } %>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><%= restaurant.title %></h5>
+                <p class="card-text"><%= restaurant.description %> </p>
+                <p class="card-text">
+                    <small class="text-muted"><%= restaurant.location %> </small>
+                </p>
+                <a class="btn btn-primary" href="/restaurants/<%= restaurant._id %> ">View <%= restaurant.title %> </a>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<script>
+    const mapToken = "<%- process.env.MAPBOX_TOKEN %>";
+    const restaurants = {
+        features: <%- JSON.stringify(restaurants) %>
+    }
+</script>
+
+<script src="/javascripts/clusterMap.js"></script>
